@@ -1,0 +1,24 @@
+{
+  "name": "async-interval-queue",
+  "version": "1.0.0",
+  "description": "Interval Queue for Async and Promise returning jobs",
+  "main": "async-interval-queue.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hrishioa/async-interval-queue"
+  },
+  "keywords": [
+    "async",
+    "promise",
+    "queue",
+    "interval",
+    "timing",
+    "job",
+    "scheduling"
+  ],
+  "author": "Hrishi Olickel",
+  "license": "MIT"
+}
