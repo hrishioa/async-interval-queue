@@ -12,7 +12,7 @@ npm install async-interval-queue
 
 ## Usage
 
-### Using a thunk
+### Creating an instance
 
 ```javascript
 const AsyncQueue = require('async-interval-queue');
@@ -20,15 +20,24 @@ const AsyncQueue = require('async-interval-queue');
 // Create a new queue with running interval in ms
 let myQueue = new AsyncQueue(1000);
 
+// Let's make an async function for tests
 async function myFunc(value) {
   return value;
 }
+```
 
-// Schedule a job with a thunk
+### Adding jobs using a thunk
+
+```javascript
 myQueue.add(() => Promise.resolve("Hello"), true).then(console.log);
 myQueue.add(() => Promise.resolve("World"), true).then(console.log);
 
-// Or, use a decorator
+myQueue.start();
+```
+
+### Wrapping functions with the decorator
+
+```javascript
 let myQueuedFunc = myQueue.decorator(myFunc, true);
 
 myQueuedFunc("from").then(console.log);
