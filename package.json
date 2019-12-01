@@ -1,6 +1,6 @@
 {
   "name": "async-interval-queue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Interval Queue for Async and Promise returning jobs",
   "main": "async-interval-queue.js",
   "scripts": {
