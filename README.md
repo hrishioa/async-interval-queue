@@ -4,7 +4,7 @@ A simple, no dependencies queue for scheduling jobs to run on an interval. Built
 
 The queue also includes a decorator (not supported in JS yet, so no fancy @ notation) to wrap commonly used functions.
 
-A sharded version of this queue that can support cluster workloads is published on npm as [shared-interval-queue](https://www.npmjs.com/package/sharded-interval-queue).
+A sharded version of this queue that can support cluster workloads is published on npm as [sharded-interval-queue](https://www.npmjs.com/package/sharded-interval-queue).
 
 ## Installation
 
