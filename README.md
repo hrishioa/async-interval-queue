@@ -1,4 +1,4 @@
-# Async Interval Queue
+# Async Interval Queue [![npm version](https://badge.fury.io/js/async-interval-queue.svg)](https://badge.fury.io/js/async-interval-queue)
 
 A simple, no dependencies queue for scheduling jobs to run on an interval. Built originally to space out API requests and to minimize code changes when used. Simply replace any async call with the add function, and you get a promise that returns the expected value when the job is run.
 
