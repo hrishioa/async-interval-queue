@@ -6,20 +6,38 @@ module.exports = class AsyncQueue {
     this.intervalMs = intervalMs;
   }
 
-  add(asyncFunction, doNotStart) {
+  add(asyncFunction, doNotStart, requeueOnFail, retries) {
+    let thisQueue = this;
     return new Promise((resolve, reject) => {
-      this.queue.push(() => {
-        asyncFunction().then(value => resolve(value)).catch(err => reject(err));
-      });
+      let job = {
+        task: () => {
+          asyncFunction().then(value => resolve(value)).catch(err => reject(err));
+        }
+      };
+
+      if(requeueOnFail && retries !== 0) {
+        if(!retries)
+          retries = 1;
+
+        job = {
+          task: () => {
+            asyncFunction().then(value => resolve(value)).catch(err => {
+              return thisQueue.add(asyncFunction, doNotStart, requeueOnFail, retries-1).then(val => resolve(val)).catch(err => reject(err));
+            });
+          }
+        }
+      }
+
+      this.queue.push(job);
       if(!doNotStart && !this.interval)
         this.start();
     })
   }
 
-  decorator(asyncFunction, doNotStart) {
-    let queue = this;
+  decorator(asyncFunction, doNotStart, requeueOnFail, retries) {
+    let thisQueue = this;
     return function () {
-      return queue.add(() => asyncFunction.apply(this, arguments), doNotStart);
+      return thisQueue.add(() => asyncFunction.apply(this, arguments), doNotStart, requeueOnFail, retries);
     }
   }
 
@@ -30,7 +48,7 @@ module.exports = class AsyncQueue {
         thisQueue.index++;
         if(thisQueue.index >= thisQueue.queue.length)
           thisQueue.stop();
-        thisQueue.queue[thisQueue.index-1]();
+        thisQueue.queue[thisQueue.index-1].task();
       }
     }
   }

@@ -2,6 +2,8 @@
 
 A simple, no dependencies queue for scheduling jobs to run on an interval. Built originally to space out API requests and to minimize code changes when used. Simply replace any async call with the add function, and you get a promise that returns the expected value when the job is run.
 
+The queue is also able to requeue a job if it fails, to a variable number of retries specific to the job.
+
 The queue also includes a decorator (not supported in JS yet, so no fancy @ notation) to wrap commonly used functions.
 
 A sharded version of this queue that can support cluster workloads is published on npm as [sharded-interval-queue](https://www.npmjs.com/package/sharded-interval-queue).
@@ -51,6 +53,24 @@ myQueue.start();
 The queue starts by default on a job being added. The second parameter to add can be set to true to prevent this.
 
 The queue will stop when there are no jobs left. You can restart it manually, or add a job without the doNotStart parameter.
+
+### Requeing and optional parameters
+
+`add` has three optional parameters which can also be passed to the decorator:
+
+* doNotStart - if True, the queue is not started when this job is added.
+* requeueOnFail - if True, the job is requeued if the promise rejects, and the final promise rejection or success is passed on.
+* retries - Number of retries.
+
+For example, to enqueue a job without starting the job, and 3 retries:
+
+```javascript
+// Thunk city
+myQueue.add(() => Promise.resolve("Hello"), true, true, 3);
+
+// Decorator
+let myDecorator = myQueue.decorator(myFunc, true, true, 3);
+```
 
 ## Contributing
 
