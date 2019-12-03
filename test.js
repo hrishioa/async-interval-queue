@@ -70,5 +70,4 @@ async function requeue() {
   return true;
 }
 
-// standard().then(() => console.log("Completed standard"));
-requeue().then(() => console.log("Requeue test completed"));
+standard().then(requeue).then(() => console.log("Completed tests"));

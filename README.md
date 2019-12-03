@@ -58,11 +58,11 @@ The queue will stop when there are no jobs left. You can restart it manually, or
 
 `add` has three optional parameters which can also be passed to the decorator:
 
-* doNotStart - if True, the queue is not started when this job is added.
-* requeueOnFail - if True, the job is requeued if the promise rejects, and the final promise rejection or success is passed on.
-* retries - Number of retries.
+* `doNotStart` - if True, the queue is not started when this job is added.
+* `requeueOnFail` - if True, the job is requeued if the promise rejects, and the final promise rejection or success is passed on.
+* `retries` - Number of retries.
 
-For example, to enqueue a job without starting the job, and 3 retries:
+For example, to enqueue a job without starting the queue, and 3 retries:
 
 ```javascript
 // Thunk city
