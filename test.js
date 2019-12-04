@@ -39,7 +39,7 @@ async function requeue() {
 
   let myQueue2 = new AsyncQueue(1000);
 
-  let pFunc = myQueue2.decorator(probabilisticFail, false, true, 2);
+  let pFunc = myQueue2.decorator(probabilisticFail, false, 2);
   let pSuccess = 0.5;
 
   let queuePromises = [

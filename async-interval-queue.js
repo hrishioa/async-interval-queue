@@ -6,7 +6,7 @@ module.exports = class AsyncQueue {
     this.intervalMs = intervalMs;
   }
 
-  add(asyncFunction, doNotStart, requeueOnFail, retries) {
+  add(asyncFunction, doNotStart, retries) {
     let thisQueue = this;
     return new Promise((resolve, reject) => {
       let job = {
@@ -15,14 +15,11 @@ module.exports = class AsyncQueue {
         }
       };
 
-      if(requeueOnFail && retries !== 0) {
-        if(!retries)
-          retries = 1;
-
+      if(retries && retries !== 0) {
         job = {
           task: () => {
             asyncFunction().then(value => resolve(value)).catch(err => {
-              return thisQueue.add(asyncFunction, doNotStart, requeueOnFail, retries-1).then(val => resolve(val)).catch(err => reject(err));
+              return thisQueue.add(asyncFunction, doNotStart, retries-1).then(val => resolve(val)).catch(err => reject(err));
             });
           }
         }
@@ -34,10 +31,10 @@ module.exports = class AsyncQueue {
     })
   }
 
-  decorator(asyncFunction, doNotStart, requeueOnFail, retries) {
+  decorator(asyncFunction, doNotStart, retries) {
     let thisQueue = this;
     return function () {
-      return thisQueue.add(() => asyncFunction.apply(this, arguments), doNotStart, requeueOnFail, retries);
+      return thisQueue.add(() => asyncFunction.apply(this, arguments), doNotStart, retries);
     }
   }
 

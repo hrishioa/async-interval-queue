@@ -1,6 +1,6 @@
 {
   "name": "async-interval-queue",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Interval Queue for Async and Promises, with decorator and variable requeue on failure",
   "main": "async-interval-queue.js",
   "scripts": {

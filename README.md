@@ -54,22 +54,21 @@ The queue starts by default on a job being added. The second parameter to add ca
 
 The queue will stop when there are no jobs left. You can restart it manually, or add a job without the doNotStart parameter.
 
-### Requeing and optional parameters
+### Requeuing and optional parameters
 
 `add` has three optional parameters which can also be passed to the decorator:
 
 * `doNotStart` - if True, the queue is not started when this job is added.
-* `requeueOnFail` - if True, the job is requeued if the promise rejects, and the final promise rejection or success is passed on.
-* `retries` - Number of retries.
+* `retries` - Number of retries. If greater than zero, the job is requeued if it fails, the promise returning the first successful or last run.
 
 For example, to enqueue a job without starting the queue, and 3 retries:
 
 ```javascript
 // Thunk city
-myQueue.add(() => Promise.resolve("Hello"), true, true, 3);
+myQueue.add(() => Promise.resolve("Hello"), true, 3);
 
 // Decorator
-let myDecorator = myQueue.decorator(myFunc, true, true, 3);
+let myDecorator = myQueue.decorator(myFunc, true, 3);
 ```
 
 ## Contributing
